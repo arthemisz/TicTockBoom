@@ -1,8 +1,7 @@
-
 const WIN_LINES = [
-  [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-  [0, 3, 6], [1, 4, 7], [2, 5, 8], // cols
-  [0, 4, 8], [2, 4, 6],             // diagonals
+  [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+  [0, 3, 6], [1, 4, 7], [2, 5, 8], 
+  [0, 4, 8], [2, 4, 6],             
 ];
 
 
@@ -13,12 +12,11 @@ const CPU_DELAY_MS = 480;
 
 
 
-
-let board = Array(9).fill('');  
-let currentPlayer = 'X';    
-let gameOver = false;           
+let board = Array(9).fill('');   
+let currentPlayer = 'X';        
+let gameOver = false;        
 let mode = 'single';             
-let thinking = false;           
+let thinking = false;            
 let scores = { X: 0, O: 0, D: 0 };
 
 
@@ -31,7 +29,6 @@ const dotO       = document.getElementById('dotO');
 const turnText   = document.getElementById('turnText');
 const name1El    = document.getElementById('name1');
 const name2El    = document.getElementById('name2');
-
 const cells = [];
 
 function buildBoard() {
@@ -53,6 +50,11 @@ function getNames() {
 }
 
 
+
+/**
+ * S: Single Responsibility – checks win/draw on any board state.
+ * @param {string[]} b – array of 9 cells
+ * @returns {{ winner: 'X'|'O'|'D', line: number[]|null } | null}
  */
 function checkWinner(b) {
   for (const [a, bb, c] of WIN_LINES) {
@@ -63,11 +65,13 @@ function checkWinner(b) {
   if (b.every(cell => cell !== '')) return { winner: 'D', line: null };
   return null;
 }
- @param {string[]} b
-  *@param {string} sym – 'X' or 'O'
-  *@returns {number} index or -1
 
-
+/**
+ * Finds a move for `sym` that would immediately win.
+ * @param {string[]} b
+ * @param {string} sym – 'X' or 'O'
+ * @returns {number} index or -1
+ */
 function findWinningMove(b, sym) {
   for (let i = 0; i < 9; i++) {
     if (!b[i]) {
@@ -79,12 +83,22 @@ function findWinningMove(b, sym) {
   return -1;
 }
 
-
+/**
+ * Finds a blocking move to prevent `sym` from winning.
+ * @param {string[]} b
+ * @param {string} sym – opponent's symbol
+ * @returns {number} index or -1
+ */
 function findBlockingMove(b, sym) {
-  return findWinningMove(b, sym); 
+  return findWinningMove(b, sym); // same logic, different symbol
 }
 
-
+/**
+ * Smart computer move: win → block → priority fallback.
+ * @param {string[]} b
+ * @returns {number} chosen cell index
+ */
+function getBestMove(b) {
 
   const win = findWinningMove(b, 'O');
   if (win >= 0) return win;
@@ -100,7 +114,6 @@ function findBlockingMove(b, sym) {
 }
 
 
-
 function render() {
   cells.forEach((cell, i) => {
     const mark = board[i];
@@ -111,7 +124,6 @@ function render() {
   updateScoreDisplay();
 }
 
-
 function updateTurnIndicator() {
   if (gameOver) return;
   const names = getNames();
@@ -119,6 +131,7 @@ function updateTurnIndicator() {
   dotO.className = 'turn-dot' + (currentPlayer === 'O' ? ' o-turn' : '');
   turnText.textContent = (currentPlayer === 'X' ? names.X : names.O) + "'s turn";
 }
+
 
 function updateScoreDisplay() {
   const names = getNames();
@@ -128,6 +141,7 @@ function updateScoreDisplay() {
   document.getElementById('s1label').textContent = names.X + ' (X)';
   document.getElementById('s2label').textContent = names.O + ' (O)';
 }
+
 
 function showOverlay(message, type) {
   overlay.textContent = message;
@@ -140,10 +154,8 @@ function hideOverlay() {
 }
 
 
-
 function placeMove(index, symbol) {
   board[index] = symbol;
-
 
   cells[index].classList.add('pop');
   cells[index].addEventListener('animationend', () => {
@@ -158,7 +170,6 @@ function placeMove(index, symbol) {
     return;
   }
 
- 
   currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
   updateTurnIndicator();
 
@@ -183,6 +194,7 @@ function triggerComputerMove() {
     placeMove(idx, 'O');
   }, CPU_DELAY_MS);
 }
+
 
 function endGame(result) {
   gameOver = true;
@@ -221,12 +233,10 @@ function restartRound() {
   updateScoreDisplay();
 }
 
-
 function resetAll() {
   scores = { X: 0, O: 0, D: 0 };
   restartRound();
 }
-
 
 function switchMode(newMode) {
   mode = newMode;
