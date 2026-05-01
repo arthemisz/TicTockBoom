@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tic Tac Toe – Solo or Duo!</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="title">Tic Tac Toe</h1>
+
+  
+    <div class="mode-btns">
+      <button class="mode-btn active" id="btn1p">Single Player</button>
+      <button class="mode-btn" id="btn2p">Two Player</button>
+    </div>
+
+
+    <div class="names">
+      <input id="name1" placeholder="Your name (X)" maxlength="12" />
+      <input id="name2" placeholder="Computer (O)" maxlength="12" disabled />
+    </div>
+
+
+    <div class="turn-indicator">
+      <div class="turn-dot x-turn" id="dotX"></div>
+      <span id="turnText">X's turn</span>
+      <div class="turn-dot" id="dotO"></div>
+    </div>
+
+
+    <div class="board-wrap">
+      <div class="board" id="board"></div>
+      <div class="overlay" id="overlay"></div>
+    </div>
+
+
+    <div class="scores">
+      <div class="score-card">
+        <div class="score-label" id="s1label">You (X)</div>
+        <div class="score-val" id="s1">0</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Draws</div>
+        <div class="score-val" id="sd">0</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label" id="s2label">CPU (O)</div>
+        <div class="score-val" id="s2">0</div>
+      </div>
+    </div>
+
+
+    <div class="btns">
+      <button class="btn" id="restartBtn">Restart Round</button>
+      <button class="btn" id="resetBtn">Reset Scores</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
