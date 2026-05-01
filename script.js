@@ -64,8 +64,8 @@ function checkWinner(b) {
   return null;
 }
  @param {string[]} b
-  @param {string} sym – 'X' or 'O'
-  @returns {number} index or -1
+  *@param {string} sym – 'X' or 'O'
+  *@returns {number} index or -1
 
 
 function findWinningMove(b, sym) {
